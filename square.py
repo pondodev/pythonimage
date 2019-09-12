@@ -1,12 +1,19 @@
 from sys import argv
 from PIL import Image, ImageFilter
+from random import randrange
 
 def main(arg):
     img = Image.open(arg)
     x = img.size[0]
     y = img.size[1]
-    minlen = min(x, y)
-    box = (0, 0, minlen, minlen) # tuple that defines area we wish to crop
+    # get a random slice from the image
+    rootx = randrange(0, x)
+    rooty = randrange(0, y)
+    nextx = randrange(rootx, x)
+    nexty = randrange(rooty, y)
+    box = (rootx, rooty, nextx, nexty)
+
+    # crop and save
     img = img.crop(box)
     img = img.convert("RGB") # if it's got RGBA space, we need to flatten it to RGB so we can save as jpg
     img.save("test.jpg")
